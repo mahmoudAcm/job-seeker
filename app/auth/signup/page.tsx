@@ -11,6 +11,8 @@ import { InferType } from 'yup';
 import { createUserWithEmailAndPassword } from '@/src/lib/firebase';
 import { FirebaseError } from '@firebase/app';
 import { useRouter } from 'next/navigation';
+import UploadCv from '@/src/components/UploadCv';
+import { useEdgeStore } from '@/src/lib/edgestore';
 
 const signUpSchema = yup.object().shape({
   email: yup.string().email('Invalid email address').required('Email is required'),
@@ -30,6 +32,7 @@ const signUpSchema = yup.object().shape({
 });
 
 export default function Signup() {
+  const [fileUrl, setFileUrl] = useState('');
   const router = useRouter();
   const [isSubmitting, setSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -37,24 +40,31 @@ export default function Signup() {
     register,
     handleSubmit,
     setError,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm({
     resolver: yupResolver(signUpSchema),
+    mode: 'onBlur',
     reValidateMode: 'onChange'
   });
+  const { edgestore } = useEdgeStore();
 
   const onSubmit = async (data: InferType<typeof signUpSchema>) => {
     try {
       setSubmitting(true);
       if (currentStep === 2) {
-        await createUserWithEmailAndPassword(data.email, data.password, data.name);
+        await createUserWithEmailAndPassword(data.email, data.password, data.name, fileUrl);
+        await edgestore.myProtectedFiles.confirmUpload({ url: fileUrl });
         return router.push('/profile');
       }
       setCurrentStep(2);
     } catch (error) {
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/email-already-in-use') {
-          setError('email', { message: 'Email already in use' });
+          if (currentStep === 1) setError('email', { message: 'Email already in use' });
+          else alert('Email already in use');
+        }
+        if (error.code === 'auth/invalid-email') {
+          alert('Invalid email');
         }
       }
     } finally {
@@ -69,11 +79,12 @@ export default function Signup() {
           <span
             key={index}
             className={cn(
-              'w-[20px] h-[20px] rounded-full grid place-items-center text-white bg-[#624BFF33] text-[0.8125rem] font-[500] select-none',
+              'w-[20px] h-[20px] rounded-full grid place-items-center text-white bg-[#624BFF33] text-[0.8125rem] font-[500] select-none cursor-pointer',
               {
                 'bg-[#624BFF]': currentStep >= index + 1
               }
             )}
+            onClick={() => setCurrentStep(index + 1)}
           >
             {index + 1}
           </span>
@@ -102,7 +113,8 @@ export default function Signup() {
           errorMessage={errors.confirmPassword?.message}
         />
       </div>
-      <Button type='submit' disabled={isSubmitting}>
+      <UploadCv onUpload={setFileUrl} className={cn({ hidden: currentStep === 1 })} />
+      <Button type='submit' disabled={isSubmitting || !isValid || (!fileUrl && currentStep === 2)}>
         {currentStep === 1 ? 'Continue' : 'Sign up'}
       </Button>
       <p className='mx-auto text-[#624BFF] font-[500] text-[0.875rem] leading-[1.71429] select-none'>

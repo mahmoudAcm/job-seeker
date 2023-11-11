@@ -8,8 +8,9 @@ import {
   User,
   signOut as signOutAuth
 } from 'firebase/auth';
-import { getDatabase, ref, set } from '@firebase/database';
+import { getDatabase, onValue, ref, set } from '@firebase/database';
 import { FirebaseError } from '@firebase/app';
+import Cookies from 'js-cookie';
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: 'AIzaSyC6XvAbrKXfiB9IDeUQpjg3An4JkKxN5kE',
@@ -25,7 +26,8 @@ export { auth };
 
 const signInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    await signInWithEmailAndPasswordAuth(auth, email, password);
+    const result = await signInWithEmailAndPasswordAuth(auth, email, password);
+    Cookies.set('_uid', result.user.uid);
   } catch (error) {
     throw error;
   }
@@ -39,7 +41,7 @@ const updateProfile = async (user: User, profile: { displayName?: string; photoU
   }
 };
 
-const createUserWithEmailAndPassword = async (email: string, password: string, displayName: string) => {
+const createUserWithEmailAndPassword = async (email: string, password: string, displayName: string, cvUrl: string) => {
   try {
     const userCredential = await createUserWithEmailAndPasswordAuth(auth, email, password);
 
@@ -51,9 +53,11 @@ const createUserWithEmailAndPassword = async (email: string, password: string, d
     const userRef = ref(database, `users/${userUid}`);
     await set(userRef, {
       email,
-      displayName
-      // Add other fields as needed
+      displayName,
+      cvUrl
     });
+
+    Cookies.set('_uid', userUid);
   } catch (error) {
     throw error;
   }
@@ -62,10 +66,21 @@ const createUserWithEmailAndPassword = async (email: string, password: string, d
 const signOut = async () => {
   try {
     await signOutAuth(auth);
-    console.log('User signed out successfully');
+    Cookies.remove('_uid');
   } catch (error) {
     if (error instanceof FirebaseError) console.error('Error signing out:', error.message);
   }
 };
 
-export { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut };
+const getCvUrl = async (userId: string) => {
+  return new Promise<string>(resolve => {
+    const usersRef = ref(database, `users/${userId}`);
+
+    onValue(usersRef, snapshot => {
+      const data = snapshot.val();
+      resolve(data.cvUrl);
+    });
+  });
+};
+
+export { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, getCvUrl };

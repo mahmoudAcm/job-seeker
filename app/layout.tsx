@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
+import { EdgeStoreProvider } from '@/src/lib/edgestore';
 
 const poppins = Poppins({ weight: ['400', '500', '700'], subsets: ['latin'], display: 'swap' });
 
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='en'>
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <EdgeStoreProvider>{children}</EdgeStoreProvider>
+      </body>
     </html>
   );
 }
