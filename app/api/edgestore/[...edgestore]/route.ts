@@ -17,7 +17,13 @@ const es = initEdgeStore.context<Context>().create();
 
 const edgeStoreRouter = es.router({
   myProtectedFiles: es
-    .fileBucket()
+    .fileBucket({
+      accept: [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ]
+    })
     // e.g. /123/my-file.pdf
     .path(({ ctx }) => [{ owner: ctx.userId ?? '1234' }])
     .accessControl({

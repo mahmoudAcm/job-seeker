@@ -136,7 +136,10 @@ const MultiFileDropzone = forwardRef<HTMLInputElement, InputProps>(
                   <div className='text-xs text-black/70'>{formatFileSize(file.size)}</div>
                 </div>
                 <div className='grow' />
-                <div className='flex w-12 justify-end text-xs'>
+                <div
+                  className='flex w-12 justify-end text-xs'
+                  title={progress === 'ERROR' ? 'you can upload .pdf or Word document only' : ''}
+                >
                   {progress === 'PENDING' ? (
                     <button
                       className='rounded-md border-none bg-transparent p-1 transition-colors duration-200 hover:bg-white/30'
@@ -147,7 +150,12 @@ const MultiFileDropzone = forwardRef<HTMLInputElement, InputProps>(
                       <Trash2Icon className='shrink-0' />
                     </button>
                   ) : progress === 'ERROR' ? (
-                    <LucideFileWarning className='shrink-0 text-red-400' />
+                    <LucideFileWarning
+                      className='shrink-0 text-red-400 cursor-pointer'
+                      onClick={() => {
+                        void onChange?.(value.filter((_, index) => index !== i));
+                      }}
+                    />
                   ) : progress !== 'COMPLETE' ? (
                     <div>{Math.round(progress)}%</div>
                   ) : (
