@@ -67,12 +67,14 @@ export default function Signin() {
           className='w-full'
           {...register('email')}
           type='email'
+          autoComplete='on'
           errorMessage={errors.email?.message}
         />
         <Input
           placeholder='Password'
           className='w-full'
           {...register('password')}
+          type='password'
           errorMessage={errors.password?.message}
         />
       </div>

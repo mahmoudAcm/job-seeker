@@ -1,8 +1,14 @@
 import { forwardRef, ComponentPropsWithRef } from 'react';
 import { cn } from '@/src/utils/cn';
 
-interface InputProps extends ComponentPropsWithRef<'input'> {
+type BaseInputProps = ComponentPropsWithRef<'input'>;
+
+interface InputProps extends Omit<BaseInputProps, 'autoComplete'> {
   errorMessage?: string;
+  /*
+    @default off
+   */
+  autoComplete?: BaseInputProps['autoComplete'];
 }
 
 // eslint-disable-next-line react/display-name

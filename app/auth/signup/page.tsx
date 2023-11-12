@@ -98,6 +98,7 @@ export default function Signup() {
           className='w-full'
           type='email'
           {...register('email')}
+          autoComplete='on'
           errorMessage={errors.email?.message}
         />
         <Input
