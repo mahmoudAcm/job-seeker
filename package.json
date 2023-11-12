@@ -12,6 +12,7 @@
     "@edgestore/react": "^0.1.4",
     "@edgestore/server": "^0.1.4",
     "@hookform/resolvers": "^3.3.2",
+    "axios": "^1.6.1",
     "clsx": "^2.0.0",
     "firebase": "^10.6.0",
     "js-cookie": "^3.0.5",
