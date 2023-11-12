@@ -12,11 +12,11 @@ const PdfModal: FC<PdfModalProps> = ({ url, isOpen, onClose }) => {
 
   return (
     <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
-      <div className='relative w-full max-w-4xl p-5 mx-4 bg-white rounded-lg shadow-xl'>
+      <div className='relative mx-4 w-full max-w-4xl rounded-lg bg-white p-5 shadow-xl'>
         <span className='absolute top-0 right-0 p-2'>
           <button
             onClick={onClose}
-            className='text-black bg-transparent hover:bg-gray-200 rounded-full text-2xl p-2 leading-none outline-none focus:outline-none'
+            className='rounded-full bg-transparent p-2 text-2xl leading-none text-black outline-none hover:bg-gray-200 focus:outline-none'
           >
             &times;
           </button>

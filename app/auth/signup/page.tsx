@@ -73,8 +73,8 @@ export default function Signup() {
   };
 
   return (
-    <form className='grid gap-[62px]' onSubmit={handleSubmit(onSubmit)}>
-      <div className='absolute right-[46px] top-[53px] flex gap-[10px]'>
+    <form className='grid gap-[31px] md:gap-[62px]' onSubmit={handleSubmit(onSubmit)}>
+      <div className='absolute flex right-[1.5rem] top-[1.5rem] gap-[10px] md:right-[46px] md:top-[53px]'>
         {Array.from({ length: 2 }).map((_, index) => (
           <span
             key={index}

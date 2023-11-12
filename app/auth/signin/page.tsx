@@ -26,6 +26,7 @@ export default function Signin() {
     formState: { errors }
   } = useForm({
     resolver: yupResolver(signInSchema),
+    mode: 'onBlur',
     reValidateMode: 'onChange'
   });
 
@@ -58,7 +59,7 @@ export default function Signin() {
   };
 
   return (
-    <form className='grid gap-[62px]' onSubmit={handleSubmit(onSubmit)}>
+    <form className='grid gap-[31px] md:gap-[62px]' onSubmit={handleSubmit(onSubmit)}>
       <h1 className='text-center text-[3.25rem] font-[700] leading-[78px]'>Sign in</h1>
       <div className='grid gap-[35px]'>
         <Input

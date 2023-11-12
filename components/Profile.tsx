@@ -48,7 +48,7 @@ export default function Profile({ cvUrl }: ProfileProps) {
   return (
     <>
       <div>
-        <div className='w-[11.25rem] h-[11.25rem] rounded-full overflow-hidden mx-auto mb-[2.81rem] bg-gray-200 grid place-content-center text-[2rem] uppercase text-gray-500'>
+        <div className='mx-auto grid place-content-center overflow-hidden rounded-full bg-gray-200 uppercase text-gray-500 w-[11.25rem] h-[11.25rem] mb-[2.81rem] text-[2rem]'>
           {firstCharsFirstName}
           {firstCharsLastName}
         </div>
@@ -61,7 +61,7 @@ export default function Profile({ cvUrl }: ProfileProps) {
           </h3>
         </div>
       </div>
-      <div className='flex md:gap-[60px] gap-[1.5rem] justify-between flex-wrap mt-[62px]'>
+      <div className='flex flex-wrap justify-between gap-[1.5rem] mt-[62px] md:gap-[60px]'>
         {infos.map((info, index) => (
           <div key={index} className='grid'>
             <span className='text-[clamp(1.125rem,0.589rem_+_2.679vw,3rem)] font-[400]'>{info.count}</span>

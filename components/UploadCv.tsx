@@ -26,10 +26,10 @@ export default function UploadCv({ onUpload, className }: UploadCvProps) {
   }
 
   return (
-    <div className={cn('mx-auto', className)}>
+    <div className={cn('mx-auto w-full', className)}>
       <MultiFileDropzone
         value={fileStates}
-        className='h-[200px]'
+        className='w-full h-[200px]'
         dropzoneOptions={{
           maxFiles: 1
         }}
