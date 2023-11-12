@@ -70,9 +70,9 @@ const Home: React.FC = () => {
             />
             <div className='absolute flex w-full items-end justify-between bottom-[1rem] px-[2.3rem] gap-[1rem]'>
               <div className='grid place-items-start'>
-                <span className='text-[0.8125rem] text-[#EBEBF599]'>
-                  H:{weatherData.main.temp_max}° L:{weatherData.main.temp_min}°
-                </span>
+                <p className='text-[0.8125rem] text-[#EBEBF599] flex gap-[0.5rem]'>
+                  <span>H:{weatherData.main.temp_max}°</span> <span>L:{weatherData.main.temp_min}°</span>
+                </p>
                 <span className='text-[1.0625rem]'>
                   {weatherData.name}, {weatherData.sys.country}
                 </span>
