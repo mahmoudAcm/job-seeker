@@ -73,11 +73,12 @@ const signOut = async () => {
 };
 
 const getCvUrl = async (userId: string) => {
-  return new Promise<string>(resolve => {
+  return new Promise<string>((resolve, reject) => {
     const usersRef = ref(database, `users/${userId}`);
 
     onValue(usersRef, snapshot => {
       const data = snapshot.val();
+      if (!data?.cvUrl) return reject('The cv url was not found');
       resolve(data.cvUrl);
     });
   });

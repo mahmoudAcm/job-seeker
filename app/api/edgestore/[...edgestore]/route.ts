@@ -16,26 +16,13 @@ function createContext({ req }: CreateContextOptions): Context {
 const es = initEdgeStore.context<Context>().create();
 
 const edgeStoreRouter = es.router({
-  myProtectedFiles: es
-    .fileBucket({
-      accept: [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ]
-    })
-    // e.g. /123/my-file.pdf
-    .path(({ ctx }) => [{ owner: ctx.userId ?? '1234' }])
-    .accessControl({
-      OR: [
-        {
-          userId: { path: 'owner' }
-        },
-        {
-          userRole: { eq: 'admin' }
-        }
-      ]
-    })
+  myPublicFiles: es.fileBucket({
+    accept: [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ]
+  })
 });
 
 const handler = createEdgeStoreNextHandler({

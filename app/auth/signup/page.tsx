@@ -53,7 +53,7 @@ export default function Signup() {
       setSubmitting(true);
       if (currentStep === 2) {
         await createUserWithEmailAndPassword(data.email, data.password, data.name, fileUrl);
-        await edgestore.myProtectedFiles.confirmUpload({ url: fileUrl });
+        await edgestore.myPublicFiles.confirmUpload({ url: fileUrl });
         return router.push('/profile');
       }
       setCurrentStep(2);

@@ -41,7 +41,7 @@ export default function UploadCv({ onUpload, className }: UploadCvProps) {
           await Promise.all(
             addedFiles.map(async addedFileState => {
               try {
-                const res = await edgestore.myProtectedFiles.upload({
+                const res = await edgestore.myPublicFiles.upload({
                   file: addedFileState.file,
                   options: {
                     temporary: true

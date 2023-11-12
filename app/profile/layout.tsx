@@ -10,7 +10,12 @@ export default async function ProfileLayout({ children }: { children: ReactNode 
 
   if (!userId) return redirect('/auth/signin');
 
-  const cvUrl = await getCvUrl(userId);
+  let cvUrl;
+  try {
+    cvUrl = await getCvUrl(userId);
+  } catch (error) {
+    return redirect('/auth/signin');
+  }
 
   return (
     <div className='container mx-auto px-[1rem] max-lg:max-w-[calc(100%-2rem)]'>
