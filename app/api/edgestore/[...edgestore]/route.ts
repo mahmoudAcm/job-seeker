@@ -19,7 +19,7 @@ const edgeStoreRouter = es.router({
   myProtectedFiles: es
     .fileBucket()
     // e.g. /123/my-file.pdf
-    .path(({ ctx }) => [{ owner: ctx.userId }])
+    .path(({ ctx }) => [{ owner: ctx.userId ?? '1234' }])
     .accessControl({
       OR: [
         {
